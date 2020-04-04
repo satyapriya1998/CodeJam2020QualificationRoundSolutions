@@ -1,0 +1,62 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int mat[51][51],n,k;
+bool rs[55][55],cs[55][55],done;
+int p=0;
+void indi(int r,int c,int trace);
+int main() {
+int t;
+cin>>t;
+ p=0;
+while(t--)
+{
+    p++;
+    cin>>n>>k;
+    indi(1,1,0);
+    if(!done)
+    {
+        cout << "Case #"<<p<<": "<<"IMPOSSIBLE"<<endl;
+    }
+    done=false;
+}
+}
+void indi(int r,int c,int trace)
+{
+    if (r==n&&c==n+1&&trace==k&&!done) 
+    {
+        done=true;
+        cout<<"Case #"<<p<<":"<<" POSSIBLE"<<endl;
+        for(int i=1;i<=n;i++) 
+        {
+            for(int j=1;j<=n;j++) 
+                cout<<mat[i][j]<<" ";
+            cout<<endl;
+        }
+        return;
+    } 
+    else if(r>n) 
+        return;
+    else if(c>n) 
+        indi(r+1,1,trace);
+    for (int i=1;i<=n&&!done;i++) 
+    {
+        if (!rs[r][i]&&!cs[c][i]) 
+        {
+            rs[r][i]=cs[c][i]=true;
+            if (r==c) {
+                trace+=i;
+            }
+            mat[r][c]=i;
+
+            indi(r,c+1,trace);
+
+            rs[r][i]=cs[c][i]=false;
+            if (r==c) 
+            {
+                trace -= i;
+            }
+            mat[r][c] = 0;
+        }
+    }
+}
